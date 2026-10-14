@@ -114,13 +114,13 @@ jobs:
           load: true
           tags: bookverse-frontend:local
 
-      # DevSecOps: Trivy Vulnerability Scans
+      # DevSecOps: Trivy Vulnerability Scans (Fails pipeline on HIGH or CRITICAL CVEs)
       - name: Trivy Scan Backend Image
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: 'bookverse-backend:local'
           format: 'table'
-          exit-code: '0'
+          exit-code: '1'
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH'
@@ -130,7 +130,7 @@ jobs:
         with:
           image-ref: 'bookverse-frontend:local'
           format: 'table'
-          exit-code: '0'
+          exit-code: '1'
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH'
