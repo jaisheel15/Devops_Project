@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: bookverse
+  labels:
+    name: bookverse
+    app.kubernetes.io/name: bookverse
+    app.kubernetes.io/part-of: bookverse-platform
