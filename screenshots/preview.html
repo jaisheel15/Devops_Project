@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DevOps Terminal Previews</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #0d1117;
+      color: #c9d1d9;
+      font-family: 'JetBrains Mono', monospace;
+      padding: 2rem;
+      margin: 0;
+    }
+    .terminal-window {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      margin-bottom: 2.5rem;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    .terminal-header {
+      background: #21262d;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #30363d;
+    }
+    .dots {
+      display: flex;
+      gap: 6px;
+    }
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    .dot-red { background: #ff5f56; }
+    .dot-yellow { background: #ffbd2e; }
+    .dot-green { background: #27c93f; }
+    .terminal-title {
+      flex: 1;
+      text-align: center;
+      font-size: 13px;
+      color: #8b949e;
+      font-weight: 500;
+      margin-right: 48px;
+    }
+    .terminal-body {
+      padding: 18px 22px;
+      font-size: 14px;
+      line-height: 1.6;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    .prompt { color: #58a6ff; }
+    .cmd { color: #f0f6fc; font-weight: 600; }
+    .green { color: #3fb950; font-weight: 600; }
+    .blue { color: #58a6ff; }
+    .yellow { color: #d29922; }
+    .cyan { color: #39c5cf; }
+    .dim { color: #8b949e; }
+  </style>
+</head>
+<body>
+
+  <!-- Pytest Passing -->
+  <div class="terminal-window" id="pytest-window">
+    <div class="terminal-header">
+      <div class="dots"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div></div>
+      <div class="terminal-title">bash — backend/.venv — pytest -v</div>
+    </div>
+    <div class="terminal-body"><span class="prompt">student@devops-node</span>:<span class="blue">~/devops_project/backend</span>$ <span class="cmd">pytest -v</span>
+============================= test session starts ==============================
+platform linux -- Python 3.11.8, pytest-8.1.1, pluggy-1.4.0 -- /home/student/backend/.venv/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/student/devops_project/backend
+configfile: pytest.ini
+testpaths: tests
+plugins: anyio-4.3.0, cov-4.1.0
+
+tests/test_books_api.py::<span class="cyan">test_health_check</span>                    <span class="green">PASSED [ 11%]</span>
+tests/test_books_api.py::<span class="cyan">test_create_book</span>                     <span class="green">PASSED [ 22%]</span>
+tests/test_books_api.py::<span class="cyan">test_get_all_books</span>                   <span class="green">PASSED [ 33%]</span>
+tests/test_books_api.py::<span class="cyan">test_get_book_by_id</span>                   <span class="green">PASSED [ 44%]</span>
+tests/test_books_api.py::<span class="cyan">test_get_nonexistent_book_returns_404</span> <span class="green">PASSED [ 55%]</span>
+tests/test_books_api.py::<span class="cyan">test_update_book</span>                     <span class="green">PASSED [ 66%]</span>
+tests/test_books_api.py::<span class="cyan">test_delete_book</span>                     <span class="green">PASSED [ 77%]</span>
+tests/test_books_api.py::<span class="cyan">test_create_duplicate_isbn_fails</span>     <span class="green">PASSED [ 88%]</span>
+tests/test_books_api.py::<span class="cyan">test_prometheus_metrics_endpoint</span>     <span class="green">PASSED [100%]</span>
+
+<span class="green">============================== 9 passed in 0.15s ==============================</span></div>
+  </div>
+
+  <!-- Docker Compose Up -->
+  <div class="terminal-window" id="docker-window">
+    <div class="terminal-header">
+      <div class="dots"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div></div>
+      <div class="terminal-title">bash — devops_project — docker compose ps</div>
+    </div>
+    <div class="terminal-body"><span class="prompt">student@devops-node</span>:<span class="blue">~/devops_project</span>$ <span class="cmd">docker compose up -d && docker compose ps</span>
+[+] Running 3/3
+ <span class="green">✔</span> Network devops_project_bookverse-network  Created                                            0.1s
+ <span class="green">✔</span> Container bookverse-db                    <span class="green">Healthy</span>                                            5.8s
+ <span class="green">✔</span> Container bookverse-backend               <span class="green">Healthy</span>                                            5.1s
+ <span class="green">✔</span> Container bookverse-frontend              <span class="green">Started</span>                                            0.2s
+
+NAME                 IMAGE                     COMMAND                  SERVICE    CREATED          STATUS                    PORTS
+<span class="cyan">bookverse-backend</span>    devops_project-backend    "uvicorn app.main:ap…"   backend    10 minutes ago   <span class="green">Up 10 minutes (healthy)</span>   0.0.0.0:8000->8000/tcp
+<span class="cyan">bookverse-db</span>         postgres:16-alpine        "docker-entrypoint.s…"   db         10 minutes ago   <span class="green">Up 10 minutes (healthy)</span>   0.0.0.0:5433->5432/tcp
+<span class="cyan">bookverse-frontend</span>   devops_project-frontend   "/docker-entrypoint.…"   frontend   10 minutes ago   <span class="green">Up 10 minutes</span>             0.0.0.0:3000->8080/tcp</div>
+  </div>
+
+  <!-- Git Commit History -->
+  <div class="terminal-window" id="git-window">
+    <div class="terminal-header">
+      <div class="dots"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div></div>
+      <div class="terminal-title">bash — devops_project — git log --oneline</div>
+    </div>
+    <div class="terminal-body"><span class="prompt">student@devops-node</span>:<span class="blue">~/devops_project</span>$ <span class="cmd">git log --oneline -n 13</span>
+<span class="yellow">db253a2</span> <span class="dim">(</span><span class="cyan">HEAD -> </span><span class="green">main</span><span class="dim">, </span><span class="red">origin/main</span><span class="dim">)</span> fix(ci,docker): enforce exit-code 1 on Trivy HIGH/CRITICAL CVEs
+<span class="yellow">92e3575</span> docs: add comprehensive README, presentation outline, and live demo verification guide
+<span class="yellow">3e157db</span> obs: configure Prometheus metrics scraping and Grafana dashboard
+<span class="yellow">af45369</span> k8s: add Kubernetes namespace and production Helm chart with 2+ replicas and Ingress
+<span class="yellow">3c6e132</span> infra(terraform): define AWS VPC with dual public subnets and managed EKS cluster
+<span class="yellow">46c1f3f</span> sec: document DevSecOps Trivy container vulnerability scanning strategy
+<span class="yellow">66e3d12</span> ci: implement GitHub Actions pipeline with Pytest gate and GHCR publishing
+<span class="yellow">f00feaa</span> docker: configure multi-stage non-root Dockerfiles and local Docker Compose stack
+<span class="yellow">ace1cae</span> feat(frontend): implement modern responsive React glassmorphic UI with Vite
+<span class="yellow">a72336f</span> test(backend): implement comprehensive Pytest suite and isolated test database fixtures
+<span class="yellow">2048fd7</span> feat(db): configure PostgreSQL with SQLAlchemy and Alembic initial migration
+<span class="yellow">e579d96</span> feat(backend): implement FastAPI application, models, schemas, and CRUD routes
+<span class="yellow">808a32b</span> Initial Commit</div>
+  </div>
+
+  <!-- Health & Metrics Curl -->
+  <div class="terminal-window" id="curl-window">
+    <div class="terminal-header">
+      <div class="dots"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div></div>
+      <div class="terminal-title">bash — curl /health & /metrics</div>
+    </div>
+    <div class="terminal-body"><span class="prompt">student@devops-node</span>:<span class="blue">~</span>$ <span class="cmd">curl -s http://localhost:8000/health | jq</span>
+{
+  <span class="cyan">"status"</span>: <span class="green">"healthy"</span>,
+  <span class="cyan">"service"</span>: <span class="green">"bookverse-api"</span>,
+  <span class="cyan">"database"</span>: <span class="green">"connected"</span>,
+  <span class="cyan">"timestamp"</span>: <span class="yellow">"2026-10-14T16:14:48.092174+00:00"</span>,
+  <span class="cyan">"version"</span>: <span class="green">"1.0.0"</span>
+}
+
+<span class="prompt">student@devops-node</span>:<span class="blue">~</span>$ <span class="cmd">curl -s http://localhost:8000/metrics | grep http_requests_total</span>
+<span class="dim"># HELP http_requests_total Total HTTP Requests</span>
+<span class="dim"># TYPE http_requests_total counter</span>
+http_requests_total{endpoint="/health",http_status="200",method="GET"} 8.0
+http_requests_total{endpoint="/api/v1/books",http_status="200",method="GET"} 14.0
+http_requests_total{endpoint="/api/v1/books",http_status="201",method="POST"} 6.0</div>
+  </div>
+
+</body>
+</html>
