@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: bookverse-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+      POSTGRES_DB: bookverse_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d bookverse_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - bookverse-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: bookverse-backend
+    restart: always
+    environment:
+      APP_NAME: "BookVerse API"
+      APP_ENV: "production"
+      DATABASE_URL: "postgresql+psycopg2://postgres:postgrespassword@db:5432/bookverse_db"
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - bookverse-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: bookverse-frontend
+    restart: always
+    ports:
+      - "3000:8080"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - bookverse-network
+
+networks:
+  bookverse-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
