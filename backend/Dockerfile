@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
-RUN pip install --no-cache-dir --upgrade pip && \
+RUN pip install --no-cache-dir --upgrade pip setuptools wheel && \
     pip install --no-cache-dir --user -r requirements.txt
 
 
@@ -25,10 +25,11 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PATH=/home/appuser/.local/bin:$PATH
 
-# Install libpq runtime dependency for postgres
+# Install libpq runtime dependency for postgres and upgrade runtime python utilities
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libpq5 \
     curl \
+    && pip install --no-cache-dir --upgrade setuptools wheel \
     && rm -rf /var/lib/apt/lists/*
 
 # Security: Create non-root dedicated application user (UID 10001)
