@@ -1,5 +1,5 @@
 # BookVerse — Enterprise Bookstore & Library Platform
-### DevOps Final Capstone Project (100 / 100 Points Evaluation)
+### DevOps Final Capstone Project 
 
 ![CI/CD Pipeline](https://img.shields.io/badge/CI%2FCD-GitHub%20Actions-blue?logo=github-actions)
 ![Security](https://img.shields.io/badge/DevSecOps-Trivy%20Scanned-success?logo=aqua)
@@ -68,24 +68,6 @@ flowchart TB
     GHA --> GHCR
     GHCR -. Pull Images (SHA Tag) .-> EKS
 ```
-
----
-
-## 📦 Capstone Module Mapping & Features
-
-| Module | Topic | Implementation Details | Points |
-|:---|:---|:---|:---:|
-| **M1** | **Application** | FastAPI REST API, PostgreSQL database with Alembic migration (`001_initial_schema.py`), and a responsive React frontend. | 10/10 |
-| **M2** | **Testing** | Automated Pytest suite (9 tests covering health, full CRUD, duplicate validation, 404s, metrics) using an isolated in-memory test database fixture (`conftest.py`). | 10/10 |
-| **M3** | **Git & GitHub** | Clean repository history with semantic commits (`feat:`, `docker:`, `k8s:`, etc.) and strict `.gitignore` ignoring caches and secrets. | 5/5 |
-| **M4** | **Docker** | Multi-stage Dockerfiles running as dedicated non-root users (`appuser` UID 10001 in backend, UID 101 in frontend) orchestrated via `docker-compose.yml`. | 10/10 |
-| **M5** | **CI/CD** | Automated GitHub Actions workflow (`.github/workflows/ci-cd.yml`) executing tests, compiling frontend, and publishing images to GHCR tagged with Git commit SHA. | 15/15 |
-| **M6** | **DevSecOps** | Aqua Security Trivy container scans in CI pipeline scanning OS packages and dependencies for HIGH/CRITICAL vulnerabilities. | 5/5 |
-| **M7** | **Terraform** | Production AWS Infrastructure as Code in `terraform/`: Multi-AZ VPC with 2 public subnets, IGW, route tables, and Amazon EKS managed cluster + node group. | 15/15 |
-| **M8** | **Kubernetes + Helm** | Production Helm chart in `helm/bookverse/`: 2+ replicas each for backend and frontend, ClusterIP services, and Ingress routing `/` to frontend and `/api` to backend. | 15/15 |
-| **M9** | **Observability** | Application `/metrics` endpoint instrumented with Prometheus client, Helm values for Prometheus scraping, and Grafana dashboard visualizing RPS, latency, and errors. | 10/10 |
-| **M10** | **Presentation & Docs** | Comprehensive `README.md`, presentation outline (`docs/presentation_outline.md`), and live demonstration verification guide (`docs/live_demo_guide.md`). | 5/5 |
-| **Total** | | | **100 / 100** |
 
 ---
 
@@ -198,6 +180,4 @@ See [`docs/security_trivy_report.md`](docs/security_trivy_report.md) for full vu
 
 ---
 
-## 👥 Authors & License
-- DevOps Capstone Project — Final Evaluation
-- Released under the MIT License.
+

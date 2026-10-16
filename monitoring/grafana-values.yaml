@@ -26,7 +26,5 @@ dashboardProviders:
         options:
           path: /var/lib/grafana/dashboards/default
 
-dashboards:
-  default:
-    bookverse-dashboard:
-      file: /var/lib/grafana/dashboards/default/bookverse-dashboard.json
+dashboardsConfigMaps:
+  default: bookverse-grafana-dashboards

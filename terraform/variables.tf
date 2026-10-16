@@ -46,6 +46,12 @@ variable "cluster_name" {
   default     = "bookverse-eks-cluster"
 }
 
+variable "cluster_version" {
+  description = "Kubernetes version for the Amazon EKS cluster"
+  type        = string
+  default     = "1.36"
+}
+
 variable "node_instance_types" {
   description = "EC2 instance types for EKS worker nodes"
   type        = list(string)

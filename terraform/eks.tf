@@ -34,12 +34,16 @@ resource "aws_iam_role_policy_attachment" "cluster_AmazonEKSVPCResourceControlle
 resource "aws_eks_cluster" "main" {
   name     = var.cluster_name
   role_arn = aws_iam_role.cluster.arn
-  version  = "1.29"
+  version  = var.cluster_version
 
   vpc_config {
     subnet_ids              = concat(aws_subnet.public[*].id, aws_subnet.private[*].id)
     endpoint_private_access = true
     endpoint_public_access  = true
+  }
+
+  access_config {
+    authentication_mode = "API_AND_CONFIG_MAP"
   }
 
   depends_on = [
@@ -49,6 +53,27 @@ resource "aws_eks_cluster" "main" {
 
   tags = {
     Name = var.cluster_name
+  }
+}
+
+# -------------------------------------------------------------
+# EKS Access Entry + Admin Policy (wires kubectl for the caller)
+# -------------------------------------------------------------
+data "aws_caller_identity" "current" {}
+
+resource "aws_eks_access_entry" "admin" {
+  cluster_name  = aws_eks_cluster.main.name
+  principal_arn = data.aws_caller_identity.current.arn
+  type          = "STANDARD"
+}
+
+resource "aws_eks_access_policy_association" "admin" {
+  cluster_name  = aws_eks_cluster.main.name
+  principal_arn = aws_eks_access_entry.admin.principal_arn
+  policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+
+  access_scope {
+    type = "cluster"
   }
 }
 
@@ -94,7 +119,7 @@ resource "aws_eks_node_group" "main" {
   cluster_name    = aws_eks_cluster.main.name
   node_group_name = "${var.project_name}-managed-nodes"
   node_role_arn   = aws_iam_role.node_group.arn
-  subnet_ids      = aws_subnet.public[*].id
+  subnet_ids      = aws_subnet.private[*].id
 
   scaling_config {
     desired_size = 2
